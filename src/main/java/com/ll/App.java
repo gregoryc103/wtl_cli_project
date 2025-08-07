@@ -9,20 +9,20 @@ public class App {
             System.out.print("명령어: ");
             String command = AppContext.sc.nextLine().trim();
             
-            if (command.equals("exit")) {
-                System.out.println("프로그램을 종료합니다.");
+            Rq rq = new Rq(command);
+            
+            if (rq.getActionName().equals("exit")) {
+                AppContext.systemController.actionExit();
                 break;
             }
             
-            processCommand(command);
+            processCommand(rq);
         }
         
         AppContext.close();
     }
 
-    private void processCommand(String command) {
-        Rq rq = new Rq(command);
-        
+    private void processCommand(Rq rq) {
         switch (rq.getActionName()) {
             case "write":
                 AppContext.articleController.actionWrite();
