@@ -1,19 +1,17 @@
 package com.ll;
 
 import com.ll.domain.article.controller.ArticleController;
-import com.ll.domain.article.repository.ArticleRepository;
-import com.ll.domain.article.service.ArticleService;
 import java.util.Scanner;
 
 public class App {
+    private final AppContext appContext;
     private final Scanner scanner;
     private final ArticleController articleController;
 
     public App() {
-        scanner = new Scanner(System.in);
-        ArticleRepository articleRepository = new ArticleRepository();
-        ArticleService articleService = new ArticleService(articleRepository);
-        articleController = new ArticleController(articleService, scanner);
+        appContext = new AppContext();
+        scanner = appContext.getScanner();
+        articleController = appContext.getArticleController();
     }
 
     public void run() {
@@ -31,7 +29,7 @@ public class App {
             processCommand(command);
         }
         
-        scanner.close();
+        appContext.close();
     }
 
     private void processCommand(String command) {
