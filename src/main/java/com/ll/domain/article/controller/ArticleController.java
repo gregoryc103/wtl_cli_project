@@ -1,5 +1,6 @@
 package com.ll.domain.article.controller;
 
+import com.ll.Rq;
 import com.ll.domain.article.entity.Article;
 import com.ll.domain.article.service.ArticleService;
 import java.util.List;
@@ -84,5 +85,51 @@ public class ArticleController {
         } else {
             System.out.println(id + "번 게시글은 존재하지 않습니다.");
         }
+    }
+
+    // Rq 객체를 사용한 메서드들
+    public void actionDetail(Rq rq) {
+        if (!rq.hasParam("id")) {
+            System.out.println("번호를 입력해주세요.");
+            return;
+        }
+        
+        if (!rq.hasValidId()) {
+            System.out.println("잘못된 게시글 번호입니다.");
+            return;
+        }
+        
+        int id = rq.getParamAsInt("id", -1);
+        actionDetail(id);
+    }
+
+    public void actionUpdate(Rq rq) {
+        if (!rq.hasParam("id")) {
+            System.out.println("올바른 명령어 형식: update [번호]");
+            return;
+        }
+        
+        if (!rq.hasValidId()) {
+            System.out.println("잘못된 게시글 번호입니다.");
+            return;
+        }
+        
+        int id = rq.getParamAsInt("id", -1);
+        actionUpdate(id);
+    }
+
+    public void actionDelete(Rq rq) {
+        if (!rq.hasParam("id")) {
+            System.out.println("올바른 명령어 형식: delete [번호]");
+            return;
+        }
+        
+        if (!rq.hasValidId()) {
+            System.out.println("잘못된 게시글 번호입니다.");
+            return;
+        }
+        
+        int id = rq.getParamAsInt("id", -1);
+        actionDelete(id);
     }
 }

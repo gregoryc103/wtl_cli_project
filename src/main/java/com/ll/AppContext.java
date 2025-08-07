@@ -3,38 +3,25 @@ package com.ll;
 import com.ll.domain.article.controller.ArticleController;
 import com.ll.domain.article.repository.ArticleRepository;
 import com.ll.domain.article.service.ArticleService;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class AppContext {
-    private final Scanner scanner;
-    private final ArticleRepository articleRepository;
-    private final ArticleService articleService;
-    private final ArticleController articleController;
+    public static final Scanner sc;
+    public static final DateTimeFormatter formatter;
+    public static final ArticleRepository articleRepository;
+    public static final ArticleService articleService;
+    public static final ArticleController articleController;
 
-    public AppContext() {
-        scanner = new Scanner(System.in);
+    static {
+        sc = new Scanner(System.in);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         articleRepository = new ArticleRepository();
         articleService = new ArticleService(articleRepository);
-        articleController = new ArticleController(articleService, scanner);
+        articleController = new ArticleController(articleService, sc);
     }
-
-    public Scanner getScanner() {
-        return scanner;
-    }
-
-    public ArticleRepository getArticleRepository() {
-        return articleRepository;
-    }
-
-    public ArticleService getArticleService() {
-        return articleService;
-    }
-
-    public ArticleController getArticleController() {
-        return articleController;
-    }
-
-    public void close() {
-        scanner.close();
+    
+    public static void close() {
+        sc.close();
     }
 }
