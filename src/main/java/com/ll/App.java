@@ -28,7 +28,11 @@ public class App {
                 AppContext.articleController.actionWrite();
                 break;
             case "list":
-                AppContext.articleController.actionList();
+                if (rq.hasParam("sort")) {
+                    AppContext.articleController.actionList(rq);
+                } else {
+                    AppContext.articleController.actionList();
+                }
                 break;
             case "detail":
                 AppContext.articleController.actionDetail(rq);
@@ -48,8 +52,11 @@ public class App {
             case "load":
                 AppContext.articleController.actionLoad();
                 break;
+            case "help":
+                AppContext.articleController.showSortHelp();
+                break;
             default:
-                System.out.println("알 수 없는 명령어입니다.");
+                System.out.println("알 수 없는 명령어입니다. 'help' 명령어로 도움말을 확인하세요.");
                 break;
         }
     }

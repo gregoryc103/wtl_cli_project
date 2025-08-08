@@ -90,4 +90,8 @@ public class ArticleService {
             System.out.println("자동 불러오기 실패: " + e.getMessage());
         }
     }
+
+    public List<Article> findAllSorted(String sortType) {
+        return articleRepository.findAllSorted(sortType);
+    }
 }

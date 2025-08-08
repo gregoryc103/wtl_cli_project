@@ -18,6 +18,14 @@ public class Rq {
             // search 명령어인 경우 나머지를 모두 keyword로
             if (actionName.equals("search")) {
                 paramsMap.put("keyword", parts[1]);
+            } else if (actionName.equals("list")) {
+                // list 명령어인 경우 정렬 옵션
+                String sortOption = parts[1];
+                if (sortOption.startsWith("--")) {
+                    paramsMap.put("sort", sortOption.substring(2));
+                } else {
+                    paramsMap.put("sort", sortOption);
+                }
             } else {
                 // detail, update, delete 등 id를 사용하는 명령어
                 String[] idParts = parts[1].split(" ");

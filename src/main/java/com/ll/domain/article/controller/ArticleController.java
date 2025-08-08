@@ -29,19 +29,47 @@ public class ArticleController {
     }
 
     public void actionList() {
-        List<Article> articles = articleService.findAll();
-        
+        List<Article> articles = articleService.findAllSorted("default");
+        displayArticleList(articles, "기본 정렬 (최신순)");
+    }
+
+    public void actionList(String sortType) {
+        List<Article> articles = articleService.findAllSorted(sortType);
+        String sortDescription = getSortDescription(sortType);
+        displayArticleList(articles, sortDescription);
+    }
+
+    public void actionList(Rq rq) {
+        String sortType = rq.getParam("sort", "default");
+        actionList(sortType);
+    }
+
+    private void displayArticleList(List<Article> articles, String sortDescription) {
+        System.out.println("게시글 목록 (" + sortDescription + ")");
         System.out.println("번호 | 제목       | 등록일     | 조회수");
         System.out.println("---------------------------------------");
         
-        for (int i = articles.size() - 1; i >= 0; i--) {
-            Article article = articles.get(i);
+        for (Article article : articles) {
             System.out.printf("%-4d | %-10s | %-10s | %d%n", 
                 article.getId(), 
                 article.getTitle(), 
                 article.getRegDate(),
                 article.getViewCount()
             );
+        }
+    }
+
+    private String getSortDescription(String sortType) {
+        switch (sortType.toLowerCase()) {
+            case "id": return "번호 오름차순";
+            case "id-desc": return "번호 내림차순";
+            case "date": return "날짜 오름차순";
+            case "date-desc": return "날짜 내림차순";
+            case "view": return "조회수 높은순";
+            case "view-asc": return "조회수 낮은순";
+            case "title": return "제목 가나다순";
+            case "title-desc": return "제목 역순";
+            default: return "기본 정렬 (최신순)";
         }
     }
 
@@ -185,5 +213,18 @@ public class ArticleController {
         } catch (IOException e) {
             System.out.println("불러오기 실패: " + e.getMessage());
         }
+    }
+
+    public void showSortHelp() {
+        System.out.println("=== 정렬 옵션 도움말 ===");
+        System.out.println("list          # 기본 정렬 (최신순)");
+        System.out.println("list --id     # 번호 오름차순");
+        System.out.println("list --id-desc # 번호 내림차순");
+        System.out.println("list --date   # 날짜 오름차순");
+        System.out.println("list --date-desc # 날짜 내림차순");
+        System.out.println("list --view   # 조회수 높은순");
+        System.out.println("list --view-asc # 조회수 낮은순");
+        System.out.println("list --title  # 제목 가나다순");
+        System.out.println("list --title-desc # 제목 역순");
     }
 }
