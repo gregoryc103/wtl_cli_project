@@ -134,4 +134,37 @@ public class ArticleController {
         int id = rq.getParamAsInt("id", -1);
         actionDelete(id);
     }
+
+    public void actionSearch(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            System.out.println("검색어를 입력해주세요.");
+            return;
+        }
+
+        List<Article> searchResults = articleService.search(keyword);
+        
+        if (searchResults.isEmpty()) {
+            System.out.println("\"" + keyword + "\"에 대한 검색 결과가 없습니다.");
+            return;
+        }
+
+        System.out.println("\"" + keyword + "\" 검색 결과: " + searchResults.size() + "개");
+        System.out.println("번호 | 제목       | 등록일     | 조회수");
+        System.out.println("---------------------------------------");
+        
+        for (int i = searchResults.size() - 1; i >= 0; i--) {
+            Article article = searchResults.get(i);
+            System.out.printf("%-4d | %-10s | %-10s | %d%n", 
+                article.getId(), 
+                article.getTitle(), 
+                article.getRegDate(),
+                article.getViewCount()
+            );
+        }
+    }
+
+    public void actionSearch(Rq rq) {
+        String keyword = rq.getParam("keyword", "");
+        actionSearch(keyword);
+    }
 }

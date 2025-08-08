@@ -61,4 +61,8 @@ public class ArticleService {
     public int count() {
         return articleRepository.count();
     }
+
+    public List<Article> search(String keyword) {
+        return articleRepository.search(keyword);
+    }
 }

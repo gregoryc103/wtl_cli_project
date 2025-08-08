@@ -37,4 +37,13 @@ public class ArticleRepository {
     public int count() {
         return articles.size();
     }
+
+    public List<Article> search(String keyword) {
+        return articles.stream()
+                .filter(article -> 
+                    article.getTitle().toLowerCase().contains(keyword.toLowerCase()) ||
+                    article.getContent().toLowerCase().contains(keyword.toLowerCase())
+                )
+                .collect(ArrayList::new, (list, article) -> list.add(0, article), ArrayList::addAll);
+    }
 }

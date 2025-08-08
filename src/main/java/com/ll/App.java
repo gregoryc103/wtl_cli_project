@@ -39,6 +39,9 @@ public class App {
             case "delete":
                 AppContext.articleController.actionDelete(rq);
                 break;
+            case "search":
+                AppContext.articleController.actionSearch(rq);
+                break;
             default:
                 System.out.println("알 수 없는 명령어입니다.");
                 break;

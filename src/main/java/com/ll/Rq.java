@@ -8,14 +8,23 @@ public class Rq {
     private final Map<String, String> paramsMap;
 
     public Rq(String cmd) {
-        String[] parts = cmd.trim().split(" ");
+        String[] parts = cmd.trim().split(" ", 2);
         actionName = parts.length > 0 ? parts[0] : "";
         
         paramsMap = new HashMap<>();
         
-        // 공백으로 구분된 명령어를 파싱 (detail 1, update 2, delete 3)
+        // 공백으로 구분된 명령어를 파싱
         if (parts.length >= 2) {
-            paramsMap.put("id", parts[1]);
+            // search 명령어인 경우 나머지를 모두 keyword로
+            if (actionName.equals("search")) {
+                paramsMap.put("keyword", parts[1]);
+            } else {
+                // detail, update, delete 등 id를 사용하는 명령어
+                String[] idParts = parts[1].split(" ");
+                if (idParts.length > 0) {
+                    paramsMap.put("id", idParts[0]);
+                }
+            }
         }
     }
 
