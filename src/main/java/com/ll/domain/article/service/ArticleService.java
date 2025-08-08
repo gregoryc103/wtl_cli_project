@@ -3,6 +3,7 @@ package com.ll.domain.article.service;
 import com.ll.AppContext;
 import com.ll.domain.article.entity.Article;
 import com.ll.domain.article.repository.ArticleRepository;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -64,5 +65,29 @@ public class ArticleService {
 
     public List<Article> search(String keyword) {
         return articleRepository.search(keyword);
+    }
+
+    public void saveToFile(String filename) throws IOException {
+        articleRepository.saveToFile(filename);
+    }
+
+    public void loadFromFile(String filename) throws IOException {
+        articleRepository.loadFromFile(filename);
+    }
+
+    public void autoSave() {
+        try {
+            saveToFile("articles.txt");
+        } catch (IOException e) {
+            System.out.println("자동 저장 실패: " + e.getMessage());
+        }
+    }
+
+    public void autoLoad() {
+        try {
+            loadFromFile("articles.txt");
+        } catch (IOException e) {
+            System.out.println("자동 불러오기 실패: " + e.getMessage());
+        }
     }
 }

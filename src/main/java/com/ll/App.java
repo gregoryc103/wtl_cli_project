@@ -42,6 +42,12 @@ public class App {
             case "search":
                 AppContext.articleController.actionSearch(rq);
                 break;
+            case "save":
+                AppContext.articleController.actionSave();
+                break;
+            case "load":
+                AppContext.articleController.actionLoad();
+                break;
             default:
                 System.out.println("알 수 없는 명령어입니다.");
                 break;

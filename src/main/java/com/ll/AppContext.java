@@ -22,9 +22,14 @@ public class AppContext {
         articleService = new ArticleService(articleRepository);
         articleController = new ArticleController(articleService, sc);
         systemController = new SystemController();
+        
+        // 프로그램 시작 시 자동 로드
+        articleService.autoLoad();
     }
     
     public static void close() {
+        // 프로그램 종료 시 자동 저장
+        articleService.autoSave();
         sc.close();
     }
 }

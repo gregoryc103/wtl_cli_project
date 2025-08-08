@@ -3,6 +3,7 @@ package com.ll.domain.article.controller;
 import com.ll.Rq;
 import com.ll.domain.article.entity.Article;
 import com.ll.domain.article.service.ArticleService;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -166,5 +167,23 @@ public class ArticleController {
     public void actionSearch(Rq rq) {
         String keyword = rq.getParam("keyword", "");
         actionSearch(keyword);
+    }
+
+    public void actionSave() {
+        try {
+            articleService.saveToFile("articles.txt");
+            System.out.println("게시글 데이터가 저장되었습니다.");
+        } catch (IOException e) {
+            System.out.println("저장 실패: " + e.getMessage());
+        }
+    }
+
+    public void actionLoad() {
+        try {
+            articleService.loadFromFile("articles.txt");
+            System.out.println("게시글 데이터를 불러왔습니다.");
+        } catch (IOException e) {
+            System.out.println("불러오기 실패: " + e.getMessage());
+        }
     }
 }
