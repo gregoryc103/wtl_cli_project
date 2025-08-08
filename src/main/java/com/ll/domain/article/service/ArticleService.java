@@ -28,6 +28,16 @@ public class ArticleService {
         return articleRepository.findById(id);
     }
 
+    public Optional<Article> findByIdAndIncreaseViewCount(int id) {
+        Optional<Article> articleOptional = articleRepository.findById(id);
+        if (articleOptional.isPresent()) {
+            Article article = articleOptional.get();
+            article.increaseViewCount();
+            articleRepository.save(article);
+        }
+        return articleOptional;
+    }
+
     public boolean update(int id, String title, String content) {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {

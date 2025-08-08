@@ -30,21 +30,22 @@ public class ArticleController {
     public void actionList() {
         List<Article> articles = articleService.findAll();
         
-        System.out.println("번호 | 제목       | 등록일");
-        System.out.println("-----------------------------");
+        System.out.println("번호 | 제목       | 등록일     | 조회수");
+        System.out.println("---------------------------------------");
         
         for (int i = articles.size() - 1; i >= 0; i--) {
             Article article = articles.get(i);
-            System.out.printf("%-4d | %-10s | %s%n", 
+            System.out.printf("%-4d | %-10s | %-10s | %d%n", 
                 article.getId(), 
                 article.getTitle(), 
-                article.getRegDate()
+                article.getRegDate(),
+                article.getViewCount()
             );
         }
     }
 
     public void actionDetail(int id) {
-        Optional<Article> articleOptional = articleService.findById(id);
+        Optional<Article> articleOptional = articleService.findByIdAndIncreaseViewCount(id);
         
         if (articleOptional.isEmpty()) {
             System.out.println(id + "번 게시글은 존재하지 않습니다.");
@@ -56,6 +57,7 @@ public class ArticleController {
         System.out.println("제목: " + article.getTitle());
         System.out.println("내용: " + article.getContent());
         System.out.println("등록일: " + article.getRegDate());
+        System.out.println("조회수: " + article.getViewCount());
     }
 
     public void actionUpdate(int id) {
